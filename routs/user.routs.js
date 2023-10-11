@@ -1,7 +1,8 @@
 const {Router} = require("express")
-const { users, createuser, updateuser, deleteuser } = require("../controller/user.controller")
+const { users, createuser, updateuser, deleteuser, Ui, signup, login, charts, signups } = require("../controller/user.controller")
 
-const Route = Router()
+const Route  = Router()
+
 
 Route.get("/",users)
 
@@ -9,6 +10,17 @@ Route.post("/",createuser)
 
 Route.patch("/:id",updateuser)
 
-Route.delete("/:id",deleteuser)
+Route.delete("/:id",deleteuser)  
 
-module.exports = Route 
+Route.get("/ui", Ui)
+
+Route.get("/chart", charts)
+
+
+
+Route.post("/signup", signup)
+
+Route.post("/login",login)
+
+module.exports = Route
+
