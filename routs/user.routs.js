@@ -1,8 +1,7 @@
 const {Router} = require("express")
-const { users, createuser, updateuser, deleteuser, Ui, signup, login, charts, signups } = require("../controller/user.controller")
+const { users, createuser, updateuser, deleteuser, Ui, signup, login, charts, logins } = require("../controller/user.controller")
 
 const Route  = Router()
-
 
 Route.get("/",users)
 
@@ -16,11 +15,11 @@ Route.get("/ui", Ui)
 
 Route.get("/chart", charts)
 
-
-
 Route.post("/signup", signup)
 
-Route.post("/login",login)
+Route.get("/login",logins)
+
+Route.post("/login", login)
 
 module.exports = Route
 

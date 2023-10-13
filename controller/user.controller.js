@@ -32,18 +32,7 @@ const signup = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
-  let { email , password } = req.body;
-  let users = await user.findOne({ email: email });
-  
-  if (!users) {
-    res.send("User Not found");
-  }
-  else if(users.password != password) {
-    res.send("wrong password");
-  }
-  res.send("logged in");
-}
+
 const Ui = (req, res) => {
    res.render('index')
 };
@@ -53,6 +42,21 @@ const charts = (req, res) => {
 const signups = (req, res) => {
   res.render('signups')
 }
-module.exports = { users, createuser, updateuser, deleteuser, Ui, signup ,login , charts , signups };
+const logins = (req, res) => {
+  res.render('login')
+}
+const login = async (req, res) => {
+  let{username , password} = req.body
+  let data = await user.findOne({username: username });
+  if(!data) {
+    return res.send("user not found")
+  }
+  if(data.password != password) {
+    return res.send("wrong password")
+  }
+  res.cookie("id",data.id).send("checking");
+}
+
+module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login };
 
 
