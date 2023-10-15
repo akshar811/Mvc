@@ -1,11 +1,18 @@
-const check = (req, res , next) => {
-  let { username, password , email , number } = req.body
-  if(username && password && email && number){
-    next();
-  }
-  else{
-    res.status(400).json({ message: "All fields are required" });
-  }
-}
+const user = require("../models/user.schema");
 
-module.exports = check;
+const finduser = async (req, res, next) => {
+  let { id } = req.cookies;
+  if (id) {
+    let data = await user.findById(id);
+    if (data.username == "AKSHAR") {
+      return next();
+    } else {
+      return res.send("Couldn't find");
+    }
+  } else {
+    res.redirect("/user/login");
+  }
+};
+
+module.exports = { finduser };
+

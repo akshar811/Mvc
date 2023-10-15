@@ -3,7 +3,7 @@ const user = require("../models/user.schema");
 const users = async (req, res) => {
   let data = await user.find();
   res.send(data);
-};
+}; 
 
 const createuser = async (req, res) => {
   let data = await user.create(req.body);
@@ -15,11 +15,13 @@ const updateuser = async (req, res) => {
   let data = await user.findByIdAndUpdate(id, req.body);
   res.send(data);
 };
+
 const deleteuser = async (req, res) => {
   let { id } = req.params;
   let data = await user.findByIdAndDelete(id);
   res.send(data);
 };
+
 const signup = async (req, res) => {
   let { email } = req.body;
   let users = await user.findOne({ email: email });
@@ -32,31 +34,34 @@ const signup = async (req, res) => {
   }
 };
 
-
 const Ui = (req, res) => {
-   res.render('index')
+  res.render("index");
 };
 const charts = (req, res) => {
-  res.render('charts')
-}
+  res.render("charts");
+};
 const signups = (req, res) => {
-  res.render('signups')
-}
+  res.render("signups");
+};
 const logins = (req, res) => {
-  res.render('login')
-}
+  res.render("login");
+};
 const login = async (req, res) => {
-  let{username , password} = req.body
-  let data = await user.findOne({username: username });
-  if(!data) {
-    return res.send("user not found")
+  let { username, password } = req.body;
+  let data = await user.findOne({ username: username });
+  if (!data) {
+    return res.send("user not found");
   }
-  if(data.password != password) {
-    return res.send("wrong password")
+  if (data.password != password) {
+    return res.send("wrong password");
   }
-  res.cookie("id",data.id).send("checking");
-}
+  res.cookie("id", data.id).send("successfully login");
+};
 
-module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login };
+const signupcreate = async (req, res) => {
+  let data = await user.create(req.body);
+  res.cookie("id",data.id).send(data);
+};
 
 
+module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate };

@@ -1,25 +1,42 @@
-const {Router} = require("express")
-const { users, createuser, updateuser, deleteuser, Ui, signup, login, charts, logins } = require("../controller/user.controller")
+const { Router } = require("express");
+const {
+  users,
+  createuser,
+  updateuser,
+  deleteuser,
+  Ui,
+  signup,
+  login,
+  charts,
+  logins,
+  signups,
+  signupcreate,
+} = require("../controller/user.controller");
 
-const Route  = Router()
+const { finduser } = require("../middlewares/user.middleware");
 
-Route.get("/",users)
+const Route = Router();
 
-Route.post("/",createuser)
+Route.get("/", finduser, users);
 
-Route.patch("/:id",updateuser)
+Route.post("/", createuser);
 
-Route.delete("/:id",deleteuser)  
+Route.patch("/:id", updateuser);
 
-Route.get("/ui", Ui)
+Route.delete("/:id", deleteuser);
 
-Route.get("/chart", charts)
+Route.get("/ui", finduser, Ui);
 
-Route.post("/signup", signup)
+Route.get("/chart", finduser, charts);
 
-Route.get("/login",logins)
+Route.post("/signup", signup);
 
-Route.post("/login", login)
+Route.get("/login", logins);
 
-module.exports = Route
+Route.post("/login", login);
 
+Route.get("/signup_page", signups)
+
+Route.post("/signup_page", finduser ,signupcreate )
+
+module.exports = Route;
