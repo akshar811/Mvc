@@ -15,4 +15,3 @@ const finduser = async (req, res, next) => {
 };
 
 module.exports = { finduser };
-
