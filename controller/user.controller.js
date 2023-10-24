@@ -28,7 +28,8 @@ const signup = async (req, res) => {
 
   if (users) {
     res.send("Already exists");
-  } else {
+  }
+   else {
     let data = await user.create(req.body);
     res.send(data);
   }
@@ -46,22 +47,24 @@ const signups = (req, res) => {
 const logins = (req, res) => {
   res.render("login");
 };
+
 const login = async (req, res) => {
-  let { username, password } = req.body;
-  let data = await user.findOne({ username: username });
-  if (!data) {
-    return res.send("user not found");
-  }
-  if (data.password != password) {
-    return res.send("wrong password");
-  }
-  res.cookie("id", data.id).send("successfully login");
+  // let { username, password } = req.body;
+  // let data = await user.findOne({ username: username });
+  // if (!data) {
+  //   return res.send("user not found");
+  // }
+  // if (data.password != password) {
+  //   return res.send("wrong password");
+  // }
+  // res.cookie("id", data.id).send("successfully login");
+  res.send("logged in"); 
+   
 };
 
 const signupcreate = async (req, res) => {
   let data = await user.create(req.body);
   res.cookie("id",data.id).send(data);
 };
-
 
 module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate };

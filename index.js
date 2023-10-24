@@ -2,8 +2,15 @@ const express = require("express");
 const connect = require("./config/db");
 const cookies = require("cookie-parser");
 const Route = require("./routs/user.routs");
+const session = require("express-session");
+const passport = require("passport");
+const LocalAuth = require("./helper/local");
 
 const app = express();
+app.use(session({secret : "private-key"}));
+app.use(passport.initialize());
+app.use(passport.session());
+LocalAuth(passport);
 app.use(express.json());
 app.use(cookies());
 app.use(express.urlencoded({ extended: true }));
