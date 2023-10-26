@@ -2,11 +2,12 @@ const { Router } = require("express");
 const { users, createuser,updateuser, deleteuser, Ui, signup, login, charts, logins, signups, signupcreate } = require("../controller/user.controller");
 
 const { finduser } = require("../middlewares/user.middleware");
+
 const passport = require("passport");
 
 const Route = Router();
 
-Route.get("/", finduser, users);
+Route.get("/", users);
 
 Route.post("/", createuser);
 

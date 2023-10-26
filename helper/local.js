@@ -3,8 +3,8 @@ const user = require("../models/user.schema");
 
 const LocalAuth = (passport) => {
   passport.use(
-    new Strategy(({usernameField : "email"}),async (username, password, done) => {
-      let User = await user.findOne({ email : email });
+    new Strategy(async (username, password, done) => {
+      let User = await user.findOne({ username : username });
       if (!User) {
         return done(null, false);
       }

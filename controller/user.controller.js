@@ -16,6 +16,18 @@ const updateuser = async (req, res) => {
   res.send(data);
 };
 
+// const updateuser = async (req, res) => {
+//   try {
+//     const data = await user.updateMany(
+//       { username: "aksh" },
+//       { $set: { username: "aksharaa" } }
+//     );
+//     res.send(data);
+//   } catch (error) {
+//     res.status(500).send("Server Error");
+//   }
+// };
+
 const deleteuser = async (req, res) => {
   let { id } = req.params;
   let data = await user.findByIdAndDelete(id);
@@ -58,6 +70,7 @@ const login = async (req, res) => {
   //   return res.send("wrong password");
   // }
   // res.cookie("id", data.id).send("successfully login");
+  
   res.send("logged in"); 
    
 };
