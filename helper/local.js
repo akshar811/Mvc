@@ -2,8 +2,7 @@ const Strategy = require("passport-local");
 const user = require("../models/user.schema");
 
 const LocalAuth = (passport) => {
-  passport.use(
-    new Strategy(async (username, password, done) => {
+  passport.use( new Strategy ( async ( username, password, done) => {
       let User = await user.findOne({ username : username });
       if (!User) {
         return done(null, false);
@@ -24,3 +23,4 @@ const LocalAuth = (passport) => {
 };
 
 module.exports = LocalAuth;
+

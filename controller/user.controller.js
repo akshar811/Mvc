@@ -3,7 +3,7 @@ const user = require("../models/user.schema");
 const users = async (req, res) => {
   let data = await user.find();
   res.send(data);
-}; 
+};
 
 const createuser = async (req, res) => {
   let data = await user.create(req.body);
@@ -40,8 +40,7 @@ const signup = async (req, res) => {
 
   if (users) {
     res.send("Already exists");
-  }
-   else {
+  } else {
     let data = await user.create(req.body);
     res.send(data);
   }
@@ -70,14 +69,37 @@ const login = async (req, res) => {
   //   return res.send("wrong password");
   // }
   // res.cookie("id", data.id).send("successfully login");
-  
-  res.send("logged in"); 
-   
+
+  res.send("logged in");
 };
 
 const signupcreate = async (req, res) => {
   let data = await user.create(req.body);
-  res.cookie("id",data.id).send(data);
+  res.cookie("id", data.id).send(data);
 };
 
-module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate };
+const profilepage = (req, res) => {
+  res.render("profile", { user: req.user });
+};
+
+const logout = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.log(err.message);
+    }
+  });
+  res.send("success logout");
+};
+
+const reset = async (req, res) => {
+  let { oldpassword, newpassword } = req.body;
+  if (oldpassword == req.user.password) {
+    await user.findByIdAndUpdate(req.user.id, { password: newpassword });
+    res.send("success reset password");
+  } else {
+    res.send("wrong password");
+  }
+};
+
+module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate , profilepage , logout , reset };
+

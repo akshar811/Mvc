@@ -14,4 +14,13 @@ const finduser = async (req, res, next) => {
   }
 };
 
-module.exports = { finduser };
+const isAuth = (req , res, next) => {
+  if(req.user){
+    return next();
+  }
+  else{
+    res.redirect("/user/login");
+  }
+}
+
+module.exports = { finduser , isAuth };

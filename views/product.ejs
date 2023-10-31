@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #product {
+        margin-top: 50px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      #product div {
+        text-align: center;
+        border: solid 2px black;
+      }
+      #product div h3 {
+        font-size: 25px;
+        text-transform: capitalize;
+      }
+      #product div h4 {
+        font-size: 20px;
+        text-transform: capitalize;
+      }
+      #product div p {
+        font-size: 18px;
+        text-transform: capitalize;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <form action="/product/create" method="post">
+      <input type="text" name="title" id="title" />
+      <input type="url" name="image" id="image" />
+      <input type="number" name="price" id="price" />
+      <input type="text" name="category"  id="category"/>
+      <input type="submit" />
+    </form>
+    <div id="product"></div>
+  </body>
+
+  <script>
+    fetch("/product/products")
+      .then((res) => res.json())
+      .then((data) => {
+        data.map((ele) => {
+          let h3 = document.createElement("h3");
+          h3.innerHTML = `title : ${ele.title}`;
+          let img = document.createElement("img");
+          img.src = ele.image;
+          img.setAttribute("width", "150px");
+          let h4 = document.createElement("h4");
+          h4.innerHTML = `price : ${ele.price}`;
+          let p = document.createElement("p");
+          p.innerHTML = `category : ${ele.category}`;
+          let del = document.createElement("button");
+          del.innerHTML = "DELETE";
+
+          del.addEventListener("click", () => {
+            fetch(`/product/delete/${ele._id}`, {
+              method: "DELETE",
+            });
+          });
+
+          let update = document.createElement("button");
+          update.innerHTML = "update";
+
+          update.addEventListener("click", () => {
+            document.getElementById("title").value = ele.title;
+            document.getElementById("image").value = ele.image;
+            document.getElementById("price").value = ele.price;
+            document.getElementById("category").value = ele.category;
+
+            fetch(`/product/update/${ele._id}`, {
+              method: "PATCH",
+            });
+          });
+
+          let div = document.createElement("div");
+          div.append(h3, img, h4, p, del, update);
+          document.getElementById("product").append(div);
+        });
+      });
+  </script>
+
+</html>

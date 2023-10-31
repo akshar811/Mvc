@@ -1,8 +1,7 @@
 const { Router } = require("express");
-const { users, createuser,updateuser, deleteuser, Ui, signup, login, charts, logins, signups, signupcreate } = require("../controller/user.controller");
+const { users, createuser,updateuser, deleteuser, Ui, signup, login, charts, logins, signups, signupcreate, profilepage, logout, reset } = require("../controller/user.controller");
 
-const { finduser } = require("../middlewares/user.middleware");
-
+const { finduser, isAuth } = require("../middlewares/user.middleware");
 const passport = require("passport");
 
 const Route = Router();
@@ -27,11 +26,12 @@ Route.post("/login",passport.authenticate("local"), login);
 
 Route.get("/signup_page", signups)
 
-Route.post("/signup_page", finduser ,signupcreate )
+Route.post("/signup_page" ,signupcreate )
 
-Route.get("/user",(req , res) =>{
-    console.log(req.user);
-    res.send("find user...");
-})
+Route.get("/profile",isAuth,profilepage);
+
+Route.get("/logout", logout)
+
+Route.post("/reset",isAuth,reset)
 
 module.exports = Route;
