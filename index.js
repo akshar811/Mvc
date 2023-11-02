@@ -2,6 +2,7 @@ const express = require("express");
 const connect = require("./config/db");
 const cookies = require("cookie-parser");
 const Route = require("./routs/user.routs");
+const nodemialer = require("nodemailer");
 
 const session = require("express-session");
 const passport = require("passport");

@@ -1,4 +1,7 @@
+const { response } = require("express");
 const user = require("../models/user.schema");
+const nodemailer = require("nodemailer");
+
 
 const users = async (req, res) => {
   let data = await user.find();
@@ -101,5 +104,53 @@ const reset = async (req, res) => {
   }
 };
 
-module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate , profilepage , logout , reset };
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "aksharambaliya6@gmail.com",
+    pass: "rzxy eiqf jypf wvqt",
+  },
+});
+
+let otp = Math.floor(Math.random() * 100000);
+
+const otpsend = async (req, res) => {
+   let {email} = req.body;
+
+   let mailoptions = {
+      from : "aksharambaliya6@gmail.com",
+      to : email,
+      subject : "otp",
+      html : `<h1> OTP : ${otp}</h1>`
+   }
+   await transporter.sendMail(mailoptions , (err, info) => {
+       if (err) {
+        console.log(err);
+       }
+       else{
+        console.log(info);
+       }
+   });
+   res.send("sending otp");
+};
+
+const verify = async (req, res) => {
+  let {cotp , password , email}= req.body;
+  if(cotp==otp){
+    let userdata = await user.findOne({email: email});
+    if(userdata){
+      userdata.password = password;
+      await userdata.save();
+      res.send(userdata);
+    }
+    else{
+      res.send("user not found");
+    }
+  }
+  else{
+    res.send("Wrong otp");
+  }
+};
+
+module.exports = { users, createuser, updateuser, deleteuser, Ui, signup , charts , signups ,logins , login , signupcreate , profilepage , logout , reset , otpsend  , verify};
 
