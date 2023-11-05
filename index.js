@@ -9,7 +9,9 @@ const passport = require("passport");
 const LocalAuth = require("./helper/local");
 
 const pro_router = require("./routs/product.routs");
-const cors = require("cors")
+const cors = require("cors");
+const cate = require("./routs/category.routs");
+const subcat = require("./routs/subcategory.routs");
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/user", Route);
 app.use("/product",pro_router)
+app.use("/category",cate)
+app.use("/subcategory",subcat)
 
 app.listen(8070, () => {
   connect();
