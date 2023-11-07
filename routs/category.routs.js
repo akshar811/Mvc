@@ -8,4 +8,5 @@ cate.post("/create",async (req, res)=>{
   res.status(201).send(data);
 })
 
+
 module.exports = cate;

@@ -12,6 +12,7 @@ const pro_router = require("./routs/product.routs");
 const cors = require("cors");
 const cate = require("./routs/category.routs");
 const subcat = require("./routs/subcategory.routs");
+const prod_router = require("./routs/products.route");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/user", Route);
 app.use("/product",pro_router)
 app.use("/category",cate)
 app.use("/subcategory",subcat)
+app.use("/products",prod_router)
 
 app.listen(8070, () => {
   connect();
